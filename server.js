@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const uuid = require('./helpers/uuid');
 // Import the feedback router
 const PORT = 3001;
 
@@ -18,30 +19,59 @@ app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
-app.get('/notes', (req, res) => 
-res.sendFile(path.join(__dirname, './public/notes.html'))
+app.get('/notes', (req, res) =>
+  res.sendFile(path.join(__dirname, './public/notes.html'))
 );
 
 app.get('/api/notes', (req, res) => {
-fs.readFile("./db/db.json", function (err, data) {
-  console.log(JSON.parse(data)); 
-  const parsedData = JSON.parse(data);
-})
+  // Send a message to the client
+  res.status(200).json(`${req.method} request received to get notes`);
 
+  // Log our request to the terminal
+  console.info(`${req.method} request received to get notes`);
 });
-app.post ('./api/notes', (req, res) => {
-  
-})
 
-// fs.writeFile(`./db/db.json`, variable, (err) =>
-// err
-//   ? console.error(err)
-//   : console.log(
-//       `New notes have been written to JSON file`
-//     )
-// )
+app.post('/api/notes', (req, res) => {
+  console.log(`${req.method} request received to add note`);
+
+  const { title, text } = req.body;
+console.log(title);
+console.log(text);
+  if (title && text) {
+    const newNote = {
+      title,
+      text,
+      review_id: uuid(),
+    };
+ 
+    fs.readFile("./db/db.json", 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        const parsedData = JSON.parse(data);
+        parsedData.push(newNote);
+
+        fs.writeFile(`./db/db.json`, JSON.stringify(parsedData, null, 4), (writeErr) =>
+          writeErr ? console.error(writeErr) : console.info("Successfully updated notes!")
+        );
+      }
+    });
+
+    const response = {
+      status: 'success!',
+      body: newNote,
+    };
+
+    console.log(response);
+    res.status(201).json(response);
+  } else {
+    res.status(500).json('Error in posting note');
+  }
+});
+
+
 app.get('*', (req, res) =>
-res.sendFile(path.join(__dirname, "./public/index.html"))
+  res.sendFile(path.join(__dirname, "./public/index.html"))
 );
 
 
