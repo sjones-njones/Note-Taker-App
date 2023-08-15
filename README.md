@@ -4,7 +4,7 @@
 
 ## Description
 
-This project is a note taker app that allows the user to save their notes to the browser. This is first time I have used express and the first time that I have written an app that connects front and back end. I struggled the most ________.       
+This project is a note taker app that allows the user to save their notes to the browser. This is first time I have used express and the first time that I have written an app that connects front and back end. I struggled the most understanding how to use so many files in conjunction.       
 
 ## Installation 
 
@@ -16,10 +16,9 @@ https://github.com/sjones-njones/Note-Taker-App.git
 
 ### To run this app:
 * open terminal
-* enter node index.js
-* answer prompts
-* your file can be found in the examples folder
-
+* enter node server.js
+* navigate to the browser
+* enter new note and save
 
 ## Credits
 
@@ -35,11 +34,7 @@ MIT License
 
 ## Test
 
-### To run the tests:
-* open terminal
-* enter npm test
-* the terminal will tell you if the test passes or fails
-
+n/a
 
 ## Contact Infomation
 

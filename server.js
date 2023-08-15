@@ -1,3 +1,4 @@
+// define variables
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -6,6 +7,7 @@ const database = require("./db/db.json");
 
 // Import the feedback router
 const PORT = 3001;
+
 // const handleNoteDelete = require('./public/assets/js/index');
 const app = express();
 
@@ -21,6 +23,7 @@ app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
+// this route is a GET route for the notes page
 app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, './public/notes.html'))
 );
@@ -37,9 +40,9 @@ app.get('/api/notes', (req, res) => {
       res.json(JSON.parse(data));
     }
   });
-  // Log our request to the terminal
 });
 
+// this defines new object variable
 app.post('/api/notes', (req, res) => {
   console.log(`${req.method} request received to add note`);
 
@@ -53,6 +56,7 @@ app.post('/api/notes', (req, res) => {
       noteId: uuid(),
     };
 
+    // reads file and pushes in new entry
     fs.readFile("./db/db.json", 'utf8', (err, data) => {
       if (err) {
         console.error(err);
@@ -63,15 +67,6 @@ app.post('/api/notes', (req, res) => {
         fs.writeFile(`./db/db.json`, JSON.stringify(parsedData, null, 4), (writeErr) =>
           writeErr ? console.error(writeErr) : console.info("Successfully updated notes!")
         );
-        // fs.readFile("./db/db.json", 'utf8', (err, data) => {
-        //   if (err) {
-        //     console.error(err);
-        //   } else {
-        //     res.json(JSON.parse(data));
-        //   }
-        // });
-        // res.json(JSON.parse(data));
-
       }
     });
 
@@ -87,35 +82,12 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
-// app.delete("/api/notes/:id", function (req, res) {
-//   let jsonFilePath = path.join(__dirname, "./db/db.json");
-//   // request to delete note by id.
-//   for (let i = 0; i < database.length; i++) {
-
-//       if (database[i].noteId == req.params.noteId) {
-//           // Splice takes i position, and then deletes the 1 note.
-//           database.splice(i, 1);
-//           break;
-//       }
-//       fs.writeFileSync(jsonFilePath, JSON.stringify(database), function (err) {
-//         // Write the db.json file again.
-      
-//             if (err) {
-//                 return console.log(err);
-//             } else {
-//                 console.log("Your note was deleted!");
-//             }
-//         });
-//         res.json(database);
-//   }
-// });
-
+// fallback path
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, "./public/index.html"))
 );
 
-
-
+// listens for port
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT}`)
 );
