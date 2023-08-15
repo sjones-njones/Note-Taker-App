@@ -87,28 +87,28 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
-app.delete("/api/notes/:id", function (req, res) {
-  let jsonFilePath = path.join(__dirname, "./db/db.json");
-  // request to delete note by id.
-  for (let i = 0; i < database.length; i++) {
+// app.delete("/api/notes/:id", function (req, res) {
+//   let jsonFilePath = path.join(__dirname, "./db/db.json");
+//   // request to delete note by id.
+//   for (let i = 0; i < database.length; i++) {
 
-      if (database[i].noteId == req.params.noteId) {
-          // Splice takes i position, and then deletes the 1 note.
-          database.splice(i, 1);
-          break;
-      }
-  }
-  // Write the db.json file again.
-  fs.writeFileSync(jsonFilePath, JSON.stringify(database), function (err) {
-
-      if (err) {
-          return console.log(err);
-      } else {
-          console.log("Your note was deleted!");
-      }
-  });
-  res.json(database);
-});
+//       if (database[i].noteId == req.params.noteId) {
+//           // Splice takes i position, and then deletes the 1 note.
+//           database.splice(i, 1);
+//           break;
+//       }
+//       fs.writeFileSync(jsonFilePath, JSON.stringify(database), function (err) {
+//         // Write the db.json file again.
+      
+//             if (err) {
+//                 return console.log(err);
+//             } else {
+//                 console.log("Your note was deleted!");
+//             }
+//         });
+//         res.json(database);
+//   }
+// });
 
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, "./public/index.html"))
