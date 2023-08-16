@@ -6,7 +6,7 @@ const uuid = require('./helpers/uuid');
 const database = require("./db/db.json");
 
 // Import the feedback router
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // const handleNoteDelete = require('./public/assets/js/index');
 const app = express();
