@@ -32,7 +32,6 @@ app.get('/api/notes', (req, res) => {
   // Send a message to the client
   console.info(`${req.method} request received to get notes`);
 
-  // res.status(200).json(`${req.method} request received to get notes`);
   fs.readFile("./db/db.json", 'utf8', (err, data) => {
     if (err) {
       console.error(err);
@@ -53,7 +52,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      noteId: uuid(),
+      id: uuid(),
     };
 
     // reads file and pushes in new entry
@@ -80,6 +79,26 @@ app.post('/api/notes', (req, res) => {
   } else {
     res.status(500).json('Error in posting note');
   }
+});
+
+app.delete("/api/notes/:id", function(req, res) {
+  const noteID = req.params.id;
+  console.log(noteID);
+  fs.readFile(path.join(__dirname, "./db/db.json"), (err, data) => {
+      if (err) throw err;
+      const notes = JSON.parse(data);
+      console.log(notes)
+      const notesArray = notes.filter(item => {
+          return item.id !== noteID
+      });
+      fs.writeFile('./db/db.json', JSON.stringify(notesArray), (err, data) => {
+          console.log("Delete")
+          if (err) throw err; 
+          res.json(notesArray) 
+
+      });
+  });
+
 });
 
 // fallback path
