@@ -13,6 +13,7 @@ This app requires Inquirer and Express to be installed to run properly.
 ## Usage
 
 https://github.com/sjones-njones/Note-Taker-App.git
+
 https://fierce-depths-19868-4506fda48fdf.herokuapp.com/
 
 ### To run this app:
